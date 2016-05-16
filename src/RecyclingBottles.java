@@ -73,31 +73,31 @@ public class RecyclingBottles {
         }
 
 
-        if (adilInd1 == beraInd1) {
-            if (adilMin1 + beraMin2 < adilMin2 + beraMin1) {
-                set.add(adilInd1);
-                set.add(beraInd2);
-                total = adilMin1 + beraMin2;
-            }
-            else  {
-                set.add(adilInd2);
-                set.add(beraInd1);
-                total = adilMin2 + beraMin1;
-            }
-        }
-        else {
-            set.add(adilInd1);
-            set.add(beraInd1);
-            total = adilMin1 + beraMin1;
-        }
-
-        for (int i = 0; i < n; i++) {
-            double temp = recBin.distanceTo(bottles[i]);
-            total += temp;
-            if (!set.contains(i)) {
-                distances[i]= temp;
-            }
-        }
+//        if (adilInd1 == beraInd1) {
+//            if (adilMin1 + beraMin2 < adilMin2 + beraMin1) {
+//                set.add(adilInd1);
+//                set.add(beraInd2);
+//                total = adilMin1 + beraMin2;
+//            }
+//            else  {
+//                set.add(adilInd2);
+//                set.add(beraInd1);
+//                total = adilMin2 + beraMin1;
+//            }
+//        }
+//        else {
+//            set.add(adilInd1);
+//            set.add(beraInd1);
+//            total = adilMin1 + beraMin1;
+//        }
+//
+//        for (int i = 0; i < n; i++) {
+//            double temp = recBin.distanceTo(bottles[i]);
+//            total += temp;
+//            if (!set.contains(i)) {
+//                distances[i]= temp;
+//            }
+//        }
 
         java.util.Arrays.sort(distances);
 
