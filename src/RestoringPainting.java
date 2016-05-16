@@ -10,6 +10,7 @@ public class RestoringPainting {
     public static void main(String [] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] input = br.readLine().split(" ");
+
         int n = Integer.parseInt(input[0]);
         int a = Integer.parseInt(input[1]);
         int b = Integer.parseInt(input[2]);
@@ -20,20 +21,34 @@ public class RestoringPainting {
         int co2 = a - d;
         int co3 = a + b - c - d;
 
-        int min1 = 1;
-        int min2 = n;
+        int lowerBound = 1;
+        int upperBound = n;
 
         int cos [] = {co1, co2, co3};
         for (int temp : cos) {
-            if (1 - temp > min1) {
-                min1 = 1 - temp;
+            if (1 - temp > lowerBound) {
+                lowerBound = 1 - temp;
+                if (lowerBound > n) {
+                    lowerBound = n;
+                    upperBound = n - 1;
+                    break;
+                }
             }
-            if (n - temp < min2) {
-                min2 = n - temp;
+            if (n - temp < upperBound) {
+                upperBound = n - temp;
+                if (upperBound < 1) {
+                    upperBound = 0;
+                    lowerBound = 1;
+                    break;
+                }
             }
         }
 
-        System.out.println((min2 - min1 + 1) * (long)n);
+        if (upperBound < lowerBound) {
+            System.out.print(0);
+        }
+        else
+            System.out.println((upperBound - lowerBound + 1) * (long)n);
 
     }
 }
