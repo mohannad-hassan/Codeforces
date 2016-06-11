@@ -89,7 +89,7 @@ public class Report {
             }
             fromRight = !fromRight;
         }
-        boolean asc = !(queries.get(queries.size() - 1).asc ^ firstQuery.asc);
+        boolean asc = queries.get(queries.size() - 1).asc == firstQuery.asc;
         while (min <= max) {
             array[arrayI--] = workingArray[asc ? max-- : min++];
         }
