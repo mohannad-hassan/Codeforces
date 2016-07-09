@@ -18,40 +18,37 @@ public class MikeAndShortcuts {
             shortCuts[i] = Integer.parseInt(input[i]) - 1;
         }
 
-        PriorityQueue<MikeAndShortcutsPair> queue = new PriorityQueue<>(n);
         int [] distance = new int[n];
         for (int i = 0; i < n; i++) {
             distance[i] = i;
-            queue.add(new MikeAndShortcutsPair(i, i));
         }
 
-        boolean []visited = new boolean[n];
+        int start = 0;
+        int end = n - 1;
+        while (start <= end) {
+            int workIndex = start;
+            start++;
 
-        while (!queue.isEmpty()) {
-            MikeAndShortcutsPair top = queue.poll();
-            int temp = shortCuts[top.node];
-            visited[top.node] = true;
-            int curDist = top.distance;
-            if (temp != top.node) {
-                for (int i = temp; i > 0; i--) {
-                    int newDist = curDist + temp - i + 1;
-                    if (visited[i] || distance[i] <= newDist) {
-                        break;
+            int shortCut = shortCuts[workIndex];
+
+            if (shortCut >= start && shortCut <= end) {
+                if (distance[shortCut] > distance[workIndex] + 1) {
+                    distance[shortCut] = distance[workIndex] + 1;
+                    int backward = shortCut - 1;
+                    int newDist = distance[shortCut] + 1;
+                    while (backward >= start && distance[backward] > newDist) {
+                        distance[backward] = newDist;
+                        newDist++;
+                        backward--;
                     }
-                    distance[i] = newDist;
-                    int newI = i;
-                    queue.removeIf(o -> o.node == newI);
-                    queue.add(new MikeAndShortcutsPair(i, newDist));
-                }
-                for (int i = temp + 1; i < n; i++) {
-                    int newDist = curDist + i - temp + 1;
-                    if (visited[i] || distance[i] <= newDist) {
-                        break;
+
+                    int foreword = shortCut + 1;
+                    newDist = distance[shortCut] + 1;
+                    while (foreword <= end && distance[foreword] > newDist) {
+                        distance[foreword] = newDist;
+                        newDist++;
+                        foreword++;
                     }
-                    distance[i] = newDist;
-                    int newI = i;
-                    queue.removeIf(o -> o.node == newI);
-                    queue.add(new MikeAndShortcutsPair(i, newDist));
                 }
             }
         }
@@ -63,26 +60,7 @@ public class MikeAndShortcuts {
                 sb.append(' ');
             }
         }
+
         System.out.println(sb.toString());
-    }
-}
-
-class MikeAndShortcutsPair implements Comparable<MikeAndShortcutsPair>{
-    int node;
-    int distance;
-
-    public MikeAndShortcutsPair(int node, int distance) {
-        this.node = node;
-        this.distance = distance;
-    }
-
-    @Override
-    public int compareTo(MikeAndShortcutsPair o) {
-        return distance - o.distance;
-    }
-
-    @Override
-    public String toString() {
-        return node + " - Distance: " + distance;
     }
 }
