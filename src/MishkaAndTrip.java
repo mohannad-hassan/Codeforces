@@ -16,9 +16,11 @@ public class MishkaAndTrip {
         int k = Integer.parseInt(input[1]);
 
         int [] bs = new int[n];
+        long all = 0;
         input = br.readLine().split(" ");
         for (int i = 0; i < n; i++) {
             bs[i] = Integer.parseInt(input[i]);
+            all += bs[i];
         }
 
         int [] capitals = new int[k];
@@ -31,26 +33,33 @@ public class MishkaAndTrip {
         }
 
         long sum = 0;
+
         for (int i = 0; i < n; i++) {
             int next = (i + 1) % n;
             sum += bs[i] * bs[next];
+        }
 
-            if (isCapital[i]) {
-                for (int c = 0; c < k && capitals[c] < i; c++) {
-                    int j = capitals[c];
-                    if (i == j || i == (j + 1) % n || j == (i + 1) % n)
-                        continue;
-                    sum += bs[i] * bs[j];
-                }
-                continue;
+        int capitalsSum = 0;
+        for (int i = 0; i < k; i++) {
+            int j = capitals[i];
+            long temp = all - capitalsSum - bs[j];
+            if (j > 0) {
+                if (!isCapital[j - 1])
+                    temp -= bs[j - 1];
             }
-            for (int c = 0; c < k; c++) {
-                int j = capitals[c];
-                if (i == j || i == (j + 1) % n || j == (i + 1) % n)
-                    continue;
+            else {
+                temp -= bs[n - 1];
+            }
 
-                sum += bs[i] * bs[j];
+            if (j < n - 1) {
+                temp -= bs[j + 1];
             }
+            else if (!isCapital[0]){
+                temp -= bs[0];
+            }
+
+            sum += bs[j] * temp;
+            capitalsSum += bs[j];
         }
 
         System.out.println(sum);
