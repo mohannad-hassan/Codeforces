@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 
 /**
  * Created by MohannadHassanPersonal on 7/22/16.
@@ -13,39 +14,41 @@ public class TheyAreEverywhere {
 
         String str = br.readLine();
 
-        TheyAreEverywhereFrequencyArr [] frequencyArrs = new TheyAreEverywhereFrequencyArr[n + 1];
-
-        frequencyArrs[0] = new TheyAreEverywhereFrequencyArr();
-
-        int max = 0;
-        int maxI = 0;
+        HashSet<Character> allCharsSet = new HashSet<>();
 
         for (int i = 0; i < n; i++) {
-            frequencyArrs[i + 1] = (TheyAreEverywhereFrequencyArr) frequencyArrs[i].clone();
-            frequencyArrs[i + 1].increaseIndex(str.charAt(i));
-
-            if (frequencyArrs[i + 1].unique > max) {
-                max = frequencyArrs[i + 1].unique;
-                maxI = i;
-            }
+            allCharsSet.add(str.charAt(i));
         }
 
-        int allChars = max;
+        int allChars = allCharsSet.size();
 
-        int answer = -1;
-        if (allChars == 1)
-            answer = 0;
-        for (int range = 1; range <= maxI && answer == -1; range++) {
-            for (int i = 0; i + range < n && answer == -1; i++) {
-                int cnt = frequencyArrs[i + range + 1].minus(frequencyArrs[i]);
+        int min = str.length();
 
-                if (cnt == allChars) {
-                    answer = range;
-                }
+        int low = 0, high = 0;
+        TheyAreEverywhereFrequencyArr arr = new TheyAreEverywhereFrequencyArr();
+
+        while (high < str.length()) {
+
+            while (high < str.length() && arr.unique < allChars) {
+                arr.increaseIndex(str.charAt(high));
+                high++;
             }
+
+            if (arr.unique < allChars) {
+                break;
+            }
+
+            while (low <= high && arr.unique == allChars) {
+                arr.descreaseIndex(str.charAt(low));
+                low++;
+            }
+            int len = high - low + 1;
+
+            if (len < min)
+                min = len;
         }
 
-        System.out.println(answer + 1);
+        System.out.println(min);
     }
 }
 
@@ -77,9 +80,31 @@ class TheyAreEverywhereFrequencyArr {
         }
 
         array[index]++;
+        printCharacter(c, index);
 
         if (array[index] == 1) {
             unique++;
+        }
+    }
+
+    private void printCharacter(char c, int index) {
+//        System.out.println("Update [" + c + "] to " + array[index]);
+    }
+
+    public void descreaseIndex(char c) {
+        int index = 0;
+        if (c >= 'A' && c <= 'Z') {
+            index = c - 'A';
+        }
+        else if ((c >= 'a') && (c <= 'z')) {
+            index = c - 'a' + 'Z' - 'A' + 1;
+        }
+
+        array[index]--;
+        printCharacter(c, index);
+
+        if (array[index] == 0) {
+            unique--;
         }
     }
 
