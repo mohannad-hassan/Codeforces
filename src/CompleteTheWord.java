@@ -48,13 +48,21 @@ public class CompleteTheWord {
             if (success) {
                 if (chars.size() == frequency[i][26] - frequency[j][26]) {
                     StringBuilder builder = new StringBuilder();
-                    builder.append(s.substring(0, j));
+//                    builder.append(s.substring(0, j));
                     for (int k = j; k < i; k++) {
                         if (s.charAt(k) == '?') {
                             builder.append(chars.remove(0));
                         }
                         else {
                             builder.append(s.charAt(k));
+                        }
+                    }
+                    for (int k = j - 1; k >= 0; k--) {
+                        if (s.charAt(k) == '?') {
+                            builder.insert(0, 'A');
+                        }
+                        else {
+                            builder.insert(0, s.charAt(k));
                         }
                     }
                     for (int k = i; k < s.length(); k++) {
