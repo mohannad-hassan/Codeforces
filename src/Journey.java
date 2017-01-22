@@ -72,10 +72,10 @@ public class Journey {
         }
     }
 
-    static List<JourneyAnswerPair> visit2(int node, int t, ) {
-
-        return null;
-    }
+//    static List<JourneyAnswerPair> visit2(int node, int t, ) {
+//
+//        return null;
+//    }
 }
 
 class JourneyPair {
